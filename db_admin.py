@@ -54,6 +54,10 @@ class Connect_log:
         self.cur.execute(f"SELECT user_name FROM user_data WHERE user_id={user_id}")
         return self.cur.fetchone()
 
+    def take_logs(self):
+        self.cur.execute("SELECT * FROM logs")
+        return self.cur.fetchall()
+
 class Connect_superuser:
     def __init__(self):
         self.db = psycopg2.connect(dbname=DBNAME, user=USER, password=PASSWORD, host=HOST, port=PORT)
@@ -71,3 +75,4 @@ class Connect_superuser:
     def del_superuser(self, user_name):
         self.cur.execute(f"UPDATE user_data SET is_superuser = '0' WHERE user_name='{user_name}'")
         self.db.commit()
+

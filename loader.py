@@ -3,7 +3,7 @@ import db_log
 
 
 telebot.apihelper.ENABLE_MIDDLEWARE = True
-bot = telebot.TeleBot('')
+bot = telebot.TeleBot('5929731710:AAHnjp7TSOivtslH7sAdefdONdJsjPEk9aY')
 
 
 @bot.middleware_handler()

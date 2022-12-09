@@ -75,6 +75,7 @@ def admin_kb_log():
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton('Топ пользователей', callback_data='users_top'))
     all_buttons.add(types.InlineKeyboardButton('Топ кнопок', callback_data='buttons_top'))
+    all_buttons.add(types.InlineKeyboardButton('Выгрузка логов в тектовый файл', callback_data='get_logs'))
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_back'))
     return all_buttons
 
@@ -100,4 +101,8 @@ def admin_kb_btn_back():
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_back'))
     return all_buttons
 
-
+#Кнопка закрыть
+def admin_kb_btn_close():
+    all_buttons = types.InlineKeyboardMarkup()
+    all_buttons.add(types.InlineKeyboardButton('Закрыть', callback_data='close'))
+    return all_buttons

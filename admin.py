@@ -3,7 +3,8 @@ import db_admin
 import admin_kb
 import db_log
 from admin_kb import admin_kb_menu, admin_kb_log, admin_kb_users, admin_kb, not_superuser, admin_kb_btn_back, \
-    admin_kb_delete_cat, admin_kb_select_cat, admin_kb_select_dish, admin_kb_select_cat_to_UPdate
+    admin_kb_delete_cat, admin_kb_select_cat, admin_kb_select_dish, admin_kb_select_cat_to_UPdate, \
+    admin_kb_btn_close
 from loader import bot
 
 
@@ -313,4 +314,29 @@ def delete_superuser(call:types.CallbackQuery):
         chat_id=call.from_user.id,
         text=f"Вы удалили администратора {call.data.split('*')[1]}",
         reply_markup=admin_kb_btn_back()
+    )
+
+#Выгрузка логов из БД
+@bot.callback_query_handler(lambda call: True if call.data == 'get_logs' else False)
+def get_logs(call:types.CallbackQuery):
+    con = db_admin.Connect_log()
+    take_logs = con.take_logs()
+    logs = ''
+    for log in take_logs:
+        logs += f'{log}\n'
+    log_file = open("Logs", "w", encoding='utf8')
+    log_file.write(logs)
+    log_file.close()
+    bot.send_document(
+        chat_id=call.from_user.id,
+        document=types.InputFile('Logs'),
+        caption=f"Выгруженные логи:",
+        reply_markup=admin_kb_btn_close()
+    )
+
+@bot.callback_query_handler(lambda call: True if call.data == 'close' else False)
+def close(call:types.CallbackQuery):
+    bot.delete_message(
+        message_id=call.message.message_id,
+        chat_id=call.from_user.id,
     )

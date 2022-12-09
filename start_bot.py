@@ -6,5 +6,4 @@ import admin
 
 
 
-
-bot.polling(non_stop=True, interval=0)
+bot.polling(non_stop=True, interval=0, skip_pending=True)
