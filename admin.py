@@ -11,14 +11,20 @@ from loader import bot
 # Админ панель
 @bot.message_handler(commands=['admin'])
 def admin_first(message):
-    bot.delete_message(
-        chat_id=message.chat.id,
-        message_id=message.message_id,
-    )
-    bot.delete_message(
-        chat_id=message.chat.id,
-        message_id=message.message_id - 1,
-    )
+    try:
+        bot.delete_message(
+            chat_id=message.chat.id,
+            message_id=message.message_id,
+        )
+    except:
+        pass
+    try:
+        bot.delete_message(
+            chat_id=message.chat.id,
+            message_id=message.message_id - 1,
+        )
+    except:
+        pass
     con = db_admin.Connect_menu()
     is_superuser = con.if_superuser(user_id = message.from_user.id)
     if is_superuser[0] == '1' or is_superuser[0] == 1:
