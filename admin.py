@@ -4,7 +4,7 @@ import admin_kb
 import db_log
 from admin_kb import admin_kb_menu, admin_kb_log, admin_kb_users, admin_kb, not_superuser, admin_kb_btn_back, \
     admin_kb_delete_cat, admin_kb_select_cat, admin_kb_select_dish, admin_kb_select_cat_to_UPdate, \
-    admin_kb_btn_close
+    admin_kb_btn_close, admin_kb_reserve
 from loader import bot
 
 
@@ -51,9 +51,11 @@ def admin_back_btn(call:types.CallbackQuery):
     )
 
 
+
 @bot.callback_query_handler(lambda call: True if call.data == 'admin_menu' or
                                                  call.data == 'admin_log' or
-                                                 call.data == 'admin_users'
+                                                 call.data == 'admin_users' or
+                                                 call.data == 'cancellation_reserve'
                                                                          else False)
 def admin_menu(call:types.CallbackQuery):
     match call.data:
@@ -79,6 +81,25 @@ def admin_menu(call:types.CallbackQuery):
                 text=f"Вы вошли в меню прав суперпользователя",
                 reply_markup=admin_kb_users()
             )
+        case 'cancellation_reserve':
+            bot.edit_message_text(
+                message_id=call.message.message_id,
+                chat_id=call.from_user.id,
+                text=f"Вы уверены, что хотите отменить все забронированные столики?",
+                reply_markup=admin_kb_reserve()
+            )
+
+
+@bot.callback_query_handler(lambda call: True if call.data == 'reserve_clear_confirmed' else False)
+def cancellation_reserve(call:types.CallbackQuery):
+    con = db_admin.Connect_reserve()
+    con.connect_reserve()
+    bot.edit_message_text(
+        message_id=call.message.message_id,
+        chat_id=call.from_user.id,
+        text=f"Вы отменили всю бронь",
+        reply_markup=admin_kb_btn_back()
+    )
 
 
 ##Админ-меню.
@@ -339,6 +360,7 @@ def get_logs(call:types.CallbackQuery):
         caption=f"Выгруженные логи:",
         reply_markup=admin_kb_btn_close()
     )
+
 
 @bot.callback_query_handler(lambda call: True if call.data == 'close' else False)
 def close(call:types.CallbackQuery):

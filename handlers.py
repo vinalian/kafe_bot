@@ -82,14 +82,6 @@ def item_info(call: types.CallbackQuery):
 
 
 
-@bot.callback_query_handler(lambda call: True if call.data.split('*')[0] == 'reserve' else False)
-def reserve(call: types.CallbackQuery):
-    bot.answer_callback_query(
-        callback_query_id=call.id,
-        text='В разработке'
-    )
-
-
 
 
 

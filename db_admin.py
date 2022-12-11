@@ -76,3 +76,13 @@ class Connect_superuser:
         self.cur.execute(f"UPDATE user_data SET is_superuser = '0' WHERE user_name='{user_name}'")
         self.db.commit()
 
+
+class Connect_reserve:
+    def __init__(self):
+        self.db = psycopg2.connect(dbname=DBNAME, user=USER, password=PASSWORD, host=HOST, port=PORT)
+        self.cur = self.db.cursor()
+
+    def connect_reserve(self):
+        self.cur.execute(f"UPDATE reserve_table SET is_reserved = 0 WHERE is_reserved = 1")
+        self.db.commit()
+

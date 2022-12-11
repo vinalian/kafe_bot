@@ -3,7 +3,7 @@ import db_log
 
 
 telebot.apihelper.ENABLE_MIDDLEWARE = True
-bot = telebot.TeleBot('5929731710:AAHnjp7TSOivtslH7sAdefdONdJsjPEk9aY')
+bot = telebot.TeleBot('')
 
 
 @bot.middleware_handler()
@@ -67,5 +67,12 @@ def middleware_handler(bot_instance, package):
                     button_name = con.get_dish_name_for_id(id=package.callback_query.data.split('*')[1])
                     con.log(button=button_name[0], user_id=user_id)
                     con.log_buttons(button_name=button_name[0], user_id=user_id)
+                except Exception as error:
+                    print(error)
+
+            case 'table':
+                try:
+                    con = db_log.Connect()
+                    con.log(button=f"Бронь столика № {package.callback_query.data.split('*')[1]}", user_id=user_id)
                 except Exception as error:
                     print(error)
