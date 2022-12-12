@@ -82,7 +82,14 @@ class Connect_reserve:
         self.db = psycopg2.connect(dbname=DBNAME, user=USER, password=PASSWORD, host=HOST, port=PORT)
         self.cur = self.db.cursor()
 
-    def connect_reserve(self):
+    def cansel_all_reserve(self):
         self.cur.execute(f"UPDATE reserve_table SET is_reserved = 0 WHERE is_reserved = 1")
         self.db.commit()
 
+    def cancel_reserve(self, table_number):
+        self.cur.execute(f"UPDATE reserve_table SET is_reserved = 0 WHERE table_number = {table_number}")
+        self.db.commit()
+
+    def get_reserve_table(self):
+        self.cur.execute(f"SELECT table_number FROM reserve_table WHERE is_reserved = 1")
+        return self.cur.fetchall()

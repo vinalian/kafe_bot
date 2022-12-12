@@ -2,7 +2,8 @@ from telebot import types
 from keyboard import start_menu
 from loader import bot
 import db_reserve
-from reserve_kb import kb_person, kb_take_table_for_person, admin_reserve
+from reserve_kb import kb_person, kb_take_table_for_person, kb_reserve_main_menu
+from admin_kb import admin_reserve
 
 
 
@@ -64,7 +65,7 @@ def is_reserved(call:types.CallbackQuery):
         message_id=call.message.message_id,
         chat_id=call.from_user.id,
         text=f"Заявка на бронь столика №{call.data.split('*')[1]} отправлена.",
-        reply_markup=start_menu()
+        reply_markup=kb_reserve_main_menu()
     )
     bot.send_message(
         chat_id=1896234699,
@@ -85,28 +86,21 @@ def confirmed(call:types.CallbackQuery):
             con.confirmed_reserve(table_number=call.data.split('*')[1])
             bot.send_message(
                 chat_id = call.data.split('*')[2],
-                text='Ваша бронь подтверждена!'
+                text=f"Ваша бронь столика № {call.data.split('*')[1]} подтверждена!"
             )
             bot.edit_message_text(
                 message_id=call.message.message_id,
                 chat_id=call.from_user.id,
                 text=f"Бронь столика №{call.data.split('*')[1]} подтверждена"
             )
-            bot.delete_message(
-                message_id=call.message.message_id,
-                chat_id=call.from_user.id,
-            )
         case 'cancellation':
             bot.send_message(
                 chat_id = call.data.split('*')[2],
-                text='Ваша бронь отменена!'
+                text=f"Ваша бронь столика № {call.data.split('*')[1]} отменена!"
             )
             bot.edit_message_text(
                 message_id=call.message.message_id,
                 chat_id=call.from_user.id,
                 text=f"Бронь столика №{call.data.split('*')[1]} отменена"
             )
-            bot.delete_message(
-                message_id=call.message.message_id,
-                chat_id=call.from_user.id,
-            )
+

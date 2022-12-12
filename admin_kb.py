@@ -1,4 +1,6 @@
 from telebot import types
+
+import db_admin
 import db_connect
 
 
@@ -14,7 +16,7 @@ def admin_kb():
     all_buttons.add(types.InlineKeyboardButton('Работа с меню', callback_data='admin_menu'))
     all_buttons.add(types.InlineKeyboardButton('Работа с логами', callback_data='admin_log'))
     all_buttons.add(types.InlineKeyboardButton('Работа с пользователями', callback_data='admin_users'))
-    all_buttons.add(types.InlineKeyboardButton('Отменить всю бронь', callback_data='cancellation_reserve'))
+    all_buttons.add(types.InlineKeyboardButton('Отменить бронь столика', callback_data='cancellation_reserve'))
     all_buttons.add(types.InlineKeyboardButton('Выход из админ-меню', callback_data='start'))
     return all_buttons
 
@@ -109,8 +111,25 @@ def admin_kb_btn_close():
     return all_buttons
 
 
+def admin_kb_select_cancel_reserve():
+    con = db_admin.Connect_reserve()
+    button_list = con.get_reserve_table()
+    all_buttons = types.InlineKeyboardMarkup()
+    for button in button_list:
+        all_buttons.add(types.InlineKeyboardButton(f'столик № {button[0]}', callback_data=f'cansel*{button[0]}'))
+    all_buttons.add(types.InlineKeyboardButton('Отменить всю бронь', callback_data='reserve_clear_confirmed'))
+    return all_buttons
+
+
 def admin_kb_reserve():
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton('Подтвердить', callback_data='reserve_clear_confirmed'))
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_back'))
+    return all_buttons
+
+
+def admin_reserve(number, user_id):
+    all_buttons = types.InlineKeyboardMarkup()
+    all_buttons.add(types.InlineKeyboardButton(f'Подтвердить бронь', callback_data=f'confirmed*{number}*{user_id}'))
+    all_buttons.add(types.InlineKeyboardButton(f'Отменить бронь', callback_data=f'cancellation*{number}*{user_id}'))
     return all_buttons

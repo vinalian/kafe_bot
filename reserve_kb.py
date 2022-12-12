@@ -23,9 +23,7 @@ def kb_take_table_for_person(person):
     return all_buttons
 
 
-def admin_reserve(number, user_id):
+def kb_reserve_main_menu():
     all_buttons = types.InlineKeyboardMarkup()
-    all_buttons.add(types.InlineKeyboardButton(f'Подтвердить бронь', callback_data=f'confirmed*{number}*{user_id}'))
-    all_buttons.add(types.InlineKeyboardButton(f'Отменить бронь', callback_data=f'cancellation*{number}*{user_id}'))
+    all_buttons.add(types.InlineKeyboardButton(f'В главное меню', callback_data='start'))
     return all_buttons
-
