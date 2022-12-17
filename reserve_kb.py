@@ -5,7 +5,7 @@ import db_reserve
 def kb_person():
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton('На двоих', callback_data=f'two'))
-    all_buttons.add(types.InlineKeyboardButton('До четверых', callback_data='four'))
+    all_buttons.add(types.InlineKeyboardButton('До четырёх', callback_data='four'))
     all_buttons.add(types.InlineKeyboardButton('До восьми', callback_data='up_to_eight'))
     all_buttons.add(types.InlineKeyboardButton('Больше восьми', callback_data='more_that_eight'))
     all_buttons.add(types.InlineKeyboardButton('Вернуться в главное меню', callback_data='start'))

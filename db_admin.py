@@ -37,6 +37,7 @@ class Connect_menu:
         self.cur.execute(f"INSERT INTO menu(dish, price, weight, cat_id, description, image_id) VALUES ('{dish}',{price},{weight}, {cat_id}, '{desc}','{image_id}')")
         self.db.commit()
 
+
 class Connect_log:
     def __init__(self):
         self.db = psycopg2.connect(dbname=DBNAME, user=USER, password=PASSWORD, host=HOST, port=PORT)
@@ -57,6 +58,7 @@ class Connect_log:
     def take_logs(self):
         self.cur.execute("SELECT * FROM logs")
         return self.cur.fetchall()
+
 
 class Connect_superuser:
     def __init__(self):

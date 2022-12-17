@@ -89,6 +89,7 @@ def admin_menu(call:types.CallbackQuery):
                 reply_markup=admin_kb_select_cancel_reserve()
             )
 
+#Отмена брони столика
 @bot.callback_query_handler(lambda call: True if call.data.split("*")[0] == 'cansel' else False)
 def calsel_reserve(call:types.CallbackQuery):
     con = db_admin.Connect_reserve()
@@ -101,7 +102,7 @@ def calsel_reserve(call:types.CallbackQuery):
     )
 
 
-
+#Отмена брони всех столиков
 @bot.callback_query_handler(lambda call: True if call.data == 'reserve_clear_confirmed' else False)
 def cancellation_all_reserve(call:types.CallbackQuery):
     con = db_admin.Connect_reserve()
@@ -115,7 +116,6 @@ def cancellation_all_reserve(call:types.CallbackQuery):
 
 
 ##Админ-меню.
-#Match_case
 @bot.callback_query_handler(lambda call: True if call.data == 'new_cat' or
                                                  call.data == 'new_dish' or
                                                  call.data == 'del_dish' or
@@ -266,7 +266,8 @@ def users_top(call:types.CallbackQuery):
     bot.edit_message_text(
         message_id=call.message.message_id,
         chat_id=call.from_user.id,
-        text=f'🥇   {user_1[0]}    Нажатий: {top_users[0][1]}\n'
+        text=f'Топ пользователей по нажатым кнопкам:\n'
+             f'🥇   {user_1[0]}    Нажатий: {top_users[0][1]}\n'
              f'🥈   {user_2[0]}    Нажатий: {top_users[1][1]}\n'
              f'🥉   {user_3[0]}    Нажатий: {top_users[2][1]}\n',
         reply_markup=admin_kb_btn_back()
@@ -277,6 +278,7 @@ def users_top(call:types.CallbackQuery):
 def admin_buttons_top(call:types.CallbackQuery):
     con = db_admin.Connect_log()
     top_buttons = con.get_buttons_top()
+    print(top_buttons)
     bot.edit_message_text(
         message_id=call.message.message_id,
         chat_id=call.from_user.id,
@@ -373,7 +375,7 @@ def get_logs(call:types.CallbackQuery):
         reply_markup=admin_kb_btn_close()
     )
 
-
+#Кнопка закрытия (для удадения сообщения с файлом логов)
 @bot.callback_query_handler(lambda call: True if call.data == 'close' else False)
 def close(call:types.CallbackQuery):
     bot.delete_message(

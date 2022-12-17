@@ -82,7 +82,7 @@ def admin_kb_log():
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_back'))
     return all_buttons
 
-
+#Кнопка назад к логам
 def admin_back_to_log():
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_log'))
@@ -110,7 +110,7 @@ def admin_kb_btn_close():
     all_buttons.add(types.InlineKeyboardButton('Закрыть', callback_data='close'))
     return all_buttons
 
-
+#Кнопка выбора отмены брони столика
 def admin_kb_select_cancel_reserve():
     con = db_admin.Connect_reserve()
     button_list = con.get_reserve_table()
@@ -120,14 +120,14 @@ def admin_kb_select_cancel_reserve():
     all_buttons.add(types.InlineKeyboardButton('Отменить всю бронь', callback_data='reserve_clear_confirmed'))
     return all_buttons
 
-
+#Кнопка подтверждения отменя всей брони.
 def admin_kb_reserve():
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton('Подтвердить', callback_data='reserve_clear_confirmed'))
     all_buttons.add(types.InlineKeyboardButton('Назад', callback_data='admin_back'))
     return all_buttons
 
-
+#Кнопки для подтверждения/отмены брони (другой чат)
 def admin_reserve(number, user_id):
     all_buttons = types.InlineKeyboardMarkup()
     all_buttons.add(types.InlineKeyboardButton(f'Подтвердить бронь', callback_data=f'confirmed*{number}*{user_id}'))
